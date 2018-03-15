@@ -28,6 +28,8 @@ public interface IQueryable<T> {
 
     public T firstOrDefault(Function<T, Boolean> predicate);
 
+    public T get(int index);
+
     public IQueryable<T> intersect(IQueryable<T> second);
 
     public T last();

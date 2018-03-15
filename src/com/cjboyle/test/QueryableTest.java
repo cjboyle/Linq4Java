@@ -1,134 +1,184 @@
 package com.cjboyle.test;
 
+import com.cjboyle.queryable.Queryable;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class QueryableTest {
+    private ArrayList<Integer> list;
+    private Integer[] array;
+    private Queryable<Integer> coll;
 
-    @org.junit.jupiter.api.Test
+    @BeforeEach
+    void setUpBeforeEach() {
+        list = new ArrayList<>();
+        list.add(4);
+        list.add(32);
+        list.add(44);
+        list.add(7);
+        list.add(15);
+        list.add(9);
+        list.add(50);
+        list.add(21);
+        list.add(38);
+        list.add(15);
+
+        //array = (Integer[]) list.toArray();
+        coll = new Queryable<>(list);
+    }
+
+    @Test
     void any() {
+        assertTrue(coll.any());
+        coll = new Queryable<>();
+        assertFalse(coll.any());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void anyPredicate() {
+        assertTrue(coll.any(i -> i < 10));
+        assertFalse(coll.any(i -> i > 50));
+        assertThrows(NullPointerException.class, () -> coll.any(null));
+        coll = new Queryable<>();
+        assertFalse(coll.any(i -> i >= 0));
+        assertThrows(NullPointerException.class, () -> coll.any(null));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void count() {
+        assertEquals(list.size(), coll.count());
+        coll = new Queryable<>();
+        assertEquals(0, coll.count());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void countPredicate() {
+        assertEquals(3, coll.count(i -> i < 10));
+        assertEquals(0, coll.count(i -> i > 50));
+        assertThrows(NullPointerException.class, () -> coll.count(null));
+        coll = new Queryable<>();
+        assertEquals(0, coll.count(i -> i >= 0));
+        assertThrows(NullPointerException.class, () -> coll.count(null));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void distinct() {
+        assertEquals(9, coll.distinct().count());
+        assertEquals(9, coll.distinct().distinct().count());
+        coll = new Queryable<>();
+        assertEquals(0, coll.distinct().count());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void distinctPredicate() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void except() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void first() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void firstPredicate() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void firstOrDefault() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void firstOrDefaultPredicate() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void intersect() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void last() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void lastPredicate() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void lastOrDefault() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void lastOrDefaultPredicate() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void orderBy() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void reverse() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void select() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void selectMany() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void single() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void singlePredicate() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void singleOrDefault() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void singleOrDefaultPredicate() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void take() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void union() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void where() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void contains() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void iterator() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void toArray() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void toArrayPredicate() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void toList() {
     }
 }

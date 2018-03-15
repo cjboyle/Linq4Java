@@ -11,12 +11,18 @@ public class Queryable<T> implements IQueryable<T> {
         this.list = new ArrayList<>();
     }
 
+    public Queryable(int capacity) {
+        this.list = new ArrayList<>(capacity);
+    }
+
     public Queryable(T[] array) {
+        this(array.length);
         this.list = Arrays.asList(array);
     }
 
     public Queryable(List<T> list) {
-        Collections.copy(this.list, list);
+        this(list.size());
+        this.list.addAll(list);
     }
 
     @Override
@@ -107,6 +113,11 @@ public class Queryable<T> implements IQueryable<T> {
     }
 
     @Override
+    public T get(int index) {
+        return list.get(index);
+    }
+
+    @Override
     public IQueryable<T> intersect(IQueryable<T> second) {
         Queryable<T> result = new Queryable<>();
         for (T t : this.list) {
@@ -149,7 +160,7 @@ public class Queryable<T> implements IQueryable<T> {
     @Override
     public <R extends Comparable<R>> IQueryable<T> orderBy(Function<T, R> selector) {
         Queryable<T> result = new Queryable<>();
-        Collections.copy(result.list, list);
+        result.list.addAll(list);
         result.list.sort(Comparator.comparing(selector));
         return result;
     }
@@ -157,7 +168,7 @@ public class Queryable<T> implements IQueryable<T> {
     @Override
     public IQueryable<T> reverse() {
         Queryable<T> result = new Queryable<>();
-        Collections.copy(result.list, list);
+        result.list.addAll(list);
         Collections.reverse(result.list);
         return result;
     }
