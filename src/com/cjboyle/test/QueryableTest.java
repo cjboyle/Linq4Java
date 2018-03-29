@@ -1,5 +1,6 @@
 package com.cjboyle.test;
 
+import com.cjboyle.queryable.IQueryable;
 import com.cjboyle.queryable.Queryable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class QueryableTest {
     private ArrayList<Integer> list;
     private Integer[] array;
-    private Queryable<Integer> coll;
+    private IQueryable<Integer> coll;
 
     @BeforeEach
     void setUpBeforeEach() {
@@ -80,6 +81,9 @@ class QueryableTest {
 
     @Test
     void except() {
+        assertEquals(7, coll.except(new Queryable<>(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9})));
+        assertEquals(0, coll.except(new Queryable<>(list)));
+        assertEquals(10, coll.except(null));
     }
 
     @Test

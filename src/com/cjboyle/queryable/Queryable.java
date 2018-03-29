@@ -6,6 +6,7 @@ import java.util.function.Function;
 public class Queryable<T> implements IQueryable<T> {
 
     private List<T> list;
+    private boolean isOrdered;
 
     public Queryable() {
         this.list = new ArrayList<>();
@@ -25,6 +26,11 @@ public class Queryable<T> implements IQueryable<T> {
         this.list.addAll(list);
     }
 
+    // TODO: Make an abstract implementation for Number-type methods (min, max, average, sum, etc.)
+    private boolean isNumeric() {
+        return !list.isEmpty() && list.get(0) instanceof Number;
+    }
+
     @Override
     public boolean any() {
         return this.count() > 0;
@@ -38,6 +44,26 @@ public class Queryable<T> implements IQueryable<T> {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean all(Function<T, Boolean> predicate) {
+        return false;
+    }
+
+    @Override
+    public T average() {
+        return null;
+    }
+
+    @Override
+    public <R extends Comparable<R>> R average(Function<T, R> selector) {
+        return null;
+    }
+
+    @Override
+    public IQueryable<T> concat(IQueryable<T> second) {
+        return null;
     }
 
     @Override
@@ -158,11 +184,46 @@ public class Queryable<T> implements IQueryable<T> {
     }
 
     @Override
+    public T max() {
+        return null;
+    }
+
+    @Override
+    public <R extends Comparable<R>> R max(Function<T, R> selector) {
+        return null;
+    }
+
+    @Override
+    public T min() {
+        return null;
+    }
+
+    @Override
+    public <R extends Comparable<R>> R min(Function<T, R> selector) {
+        return null;
+    }
+
+    @Override
     public <R extends Comparable<R>> IQueryable<T> orderBy(Function<T, R> selector) {
         Queryable<T> result = new Queryable<>();
         result.list.addAll(list);
         result.list.sort(Comparator.comparing(selector));
         return result;
+    }
+
+    @Override
+    public <R extends Comparable<R>> IQueryable<T> orderByDesc(Function<T, R> selector) {
+        return null;
+    }
+
+    @Override
+    public <R extends Comparable<R>> IQueryable<T> thenBy(Function<T, R> selector) {
+        return null;
+    }
+
+    @Override
+    public <R extends Comparable<R>> IQueryable<T> thenByDesc(Function<T, R> selector) {
+        return null;
     }
 
     @Override
@@ -227,12 +288,28 @@ public class Queryable<T> implements IQueryable<T> {
     }
 
     @Override
+    public Number sum() {
+        return null;
+    }
+
+    @Override
+    public Number sum(Function<T, Number> selector) {
+        return null;
+    }
+
+    @Override
     public IQueryable<T> take(int amount) {
         return new Queryable<>(list.subList(0, amount));
     }
 
     @Override
+    public IQueryable<T> takeEnd(int count) {
+        return null;
+    }
+
+    @Override
     public IQueryable<T> union(IQueryable<T> second) {
+        // TODO: This is a concat() not a union
         Queryable<T> result = new Queryable<>(list);
         result.list.addAll(second.toList());
         return result;
@@ -260,6 +337,11 @@ public class Queryable<T> implements IQueryable<T> {
     @Override
     public Object[] toArray() {
         return list.toArray();
+    }
+
+    @Override
+    public <R> HashMap<R, T> toHashMap() {
+        return null;
     }
 
     @Override
